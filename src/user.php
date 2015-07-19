@@ -93,6 +93,12 @@ CREATE TABLE Users(
          $retArray = array();
          if ($result->num_rows > 0) {
              //TODO: Stworzyć obiekt klasy Tweet i dodać je do tablicy zwrotnej z tej funkcji
+             WHILE($tweetData = $result->fetch_assoc()){
+                 $tempTweet = new Tweet();
+                 $tempTweet->loadFromDB($conn, $tweetData['id']);
+
+                 $retArray[]=$tempTweet;
+             }
          }
          return $retArray;
      }
@@ -124,7 +130,7 @@ CREATE TABLE Users(
 
      public function generateLinkToMyPage()
      {
-         return "<a href='http://localhost/Exercise/Twitter/show_user.php?user_id=" . $this->id . "'>" . $this->name . "</a>";
+         return "<a href='http://localhost/Exercise/Twitter/user_show.php?user_id=" . $this->id . "'>" . $this->name . "</a>";
      }
 
      public function getId()

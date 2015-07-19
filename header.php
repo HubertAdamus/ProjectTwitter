@@ -13,9 +13,9 @@ if(isset($_SESSION["user_id"]) == FALSE){
 
 
 echo("<a href='http://localhost/Exercise/Twitter/index.php'>HOME </a><br>");
-echo("<a href='http://localhost/Exercise/Twitter/edit_user.php'>EDIT </a><br>");
-echo("<a href='http://localhost/Exercise/Twitter/show_user.php'>MY </a><br>");
-echo("<a href='http://localhost/Exercise/Twitter/list_all_users.php'>USERS </a><br>");
+echo("<a href='http://localhost/Exercise/Twitter/user_edit.php'>EDIT </a><br>");
+echo("<a href='http://localhost/Exercise/Twitter/user_show.php'>MY </a><br>");
+echo("<a href='http://localhost/Exercise/Twitter/users_list_all.php'>USERS </a><br>");
 
 ?>
 
