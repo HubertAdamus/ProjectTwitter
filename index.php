@@ -1,36 +1,8 @@
 <?php
-include "header.php";
-echo "Działa";
-
-$loggedUser = new User();
-$loggedUser->loadFromDB($conn, $_SESSION["user_id"]);
-
-echo "<h1>Witaj ".$loggedUser->getName()." </h1><br>";
-echo "Moje Tweety:";
-$tweets = $loggedUser->getAllPosts($conn, 40);
-foreach ($retArray as $tweet ) {
-    //TODO:
-    echo "<br>";
-    echo ($tweet->showTweet());
-}
-
-include "footer.php";
-?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+include_once "header.php";
+include_once "user_welcome.php";
+include_once "tweet_show.php";
+include_once "tweet_create.php";
+include_once "tweet_show_others.php";
+include_once "footer.php";
 

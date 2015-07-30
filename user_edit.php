@@ -4,7 +4,7 @@ include "header.php";
 $loggedUser = new User();
 $loggedUser->loadFromDB($conn, $_SESSION["user_id"]);
 
-if($_SERVER["REQUEST_METHOD"] == 'POST') {
+if($_SERVER["REQUEST_METHOD"] === 'POST') {
     $loggedUser->updateUser($conn, $_POST["desc"], $_POST["password"], $_POST["password2"]);
 }
 

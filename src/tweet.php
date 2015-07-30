@@ -23,9 +23,16 @@ CREATE TABLE Tweets (
         $this->text="";
     }
 
-    public function getAllComments(){
-        //TODO Messages connection
+
+
+    //TODO Messages connection
+    public function getAllComments()
+    {
+
     }
+
+
+
     public function showTweet()
     {
         echo(
@@ -41,11 +48,14 @@ CREATE TABLE Tweets (
             echo "Error: " . $conn->error . "<br>";
         }
     }
-    public function create(mysqli $conn, $tweet){
-        $sqlInsertTweets = " INSERT INTO Tweets(text) VALUES ('" . $tweet . "')";
+    public function createTweet(mysqli $conn, $user_id, $tweet){
+        $sqlInsertTweets = " INSERT INTO Tweets(user_id, text) VALUES ('" . $user_id . "','" . $tweet . "')";
         $result = $conn->query($sqlInsertTweets);
         if ($result == TRUE) {
-            $this->text = $conn->insert_id;
+            $this->id = $conn->insert_id;
+            $this->user_id = $user_id;
+            //$this->creation_date = $date; TODO Date
+            $this->text = $tweet;
         }
     }
     public function loadFromDB(mysqli $conn, $idToLoad){
@@ -53,12 +63,12 @@ CREATE TABLE Tweets (
         $result = $conn->query($sqlLoadTweet);
 
         if ($result->num_rows === 1){
-            $userData = $result->fetch_assoc();
+            $tweetData = $result->fetch_assoc();
 
-            $this->id = $userData["id"];
-            $this->user_id = $userData["user_id"];
-            $this->creation_date = $userData["creation_date"];
-            $this->text = $userData["text"];
+            $this->id = $tweetData["id"];
+            $this->user_id = $tweetData["user_id"];
+            $this->creation_date = $tweetData["creation_date"];
+            $this->text = $tweetData["text"];
         }
     }
     

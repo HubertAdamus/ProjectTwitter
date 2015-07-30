@@ -1,4 +1,5 @@
 <?php
+header ('Content-type: text/html; charset=utf-8');
 include "header.php";
 
 $loggedUser = new User();
@@ -12,6 +13,5 @@ if (isset($_GET["user_id"]) == TRUE){
 }else{
     $loggedUser->showUser();
 }
-
 
 include "footer.php";

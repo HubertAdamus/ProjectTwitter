@@ -7,6 +7,6 @@ if ($conn ==null && $conn->errno !=0){
     echo "Error connecting to database:<br>";
     echo ($conn->errno);
     die("Połączenie nie udane");
-    die();
+
 }
 ?>

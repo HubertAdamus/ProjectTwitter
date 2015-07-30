@@ -1,21 +1,27 @@
 <?php
 header ('Content-type: text/html; charset=utf-8');
-require_once ("src/user.php");
-require_once ("conn.php");
+include_once ("src/user.php");
+include_once ("src/tweet.php");
+include_once ("src/comment.php");
+include_once ("src/message.php");
+include_once ("conn.php");
 session_start();
 
-
-
 if(isset($_SESSION["user_id"]) == FALSE){
-    header("Location: http://localhost/Exercise/Twitter/login.php");
+    header("Location: http://localhost/ProjectTwitter/user_login.php");
     die();
 }
 
 
-echo("<a href='http://localhost/Exercise/Twitter/index.php'>HOME </a><br>");
-echo("<a href='http://localhost/Exercise/Twitter/user_edit.php'>EDIT </a><br>");
-echo("<a href='http://localhost/Exercise/Twitter/user_show.php'>MY </a><br>");
-echo("<a href='http://localhost/Exercise/Twitter/users_list_all.php'>USERS </a><br>");
+echo("<a href='index.php' style='text-decoration: none'>MAIN  </a>");
+echo "   |   ";
+echo("<a href='user_edit.php' style='text-decoration: none'>EDIT  </a>");
+echo "   |   ";
+echo("<a href='user_show.php' style='text-decoration: none'>PROFILE  </a>");
+echo "   |   ";
+echo("<a href='users_list_all.php' style='text-decoration: none'>USERS  </a>");
+echo "   |   ";
+echo("<a href='user_logoff.php' style='text-decoration: none'>LOGOFF </a><br>");
+echo "<hr>";
 
-?>
 

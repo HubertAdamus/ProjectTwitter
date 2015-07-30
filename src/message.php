@@ -46,7 +46,7 @@ CREATE TABLE Messages (
             echo "Error: " . $conn->error . "<br>";
         }
     }
-    public function create(mysqli $conn, $message){
+    public function createMessage(mysqli $conn, $message){
         $sqlInsertMessage = " INSERT INTO Messages(text) VALUES ('" . $message . "')";
         $result = $conn->query($sqlInsertMessage);
         if ($result == TRUE) {
@@ -58,14 +58,14 @@ CREATE TABLE Messages (
         $result = $conn->query($sqlLoMessage);
 
         if ($result->num_rows === 1){
-            $userData = $result->fetch_assoc();
+            $messageData = $result->fetch_assoc();
 
-            $this->id = $userData["id"];
-            $this->send_id = $userData["send_id"];
-            $this->recive_id = $userData["recive_id"];
-            $this->text = $userData["text"];
-            $this->send_date = $userData["send_date"];
-            $this->open_date = $userData["open_date"];
+            $this->id = $messageData["id"];
+            $this->send_id = $messageData["send_id"];
+            $this->recive_id = $messageData["recive_id"];
+            $this->text = $messageData["text"];
+            $this->send_date = $messageData["send_date"];
+            $this->open_date = $messageData["open_date"];
         }
     }
 

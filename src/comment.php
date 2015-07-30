@@ -40,7 +40,7 @@ CREATE TABLE Comments(
             echo "Error: " . $conn->error . "<br>";
         }
     }
-    public function create(mysqli $conn, $comment){
+    public function createComment(mysqli $conn, $comment){
         $sqlInsertComment = " INSERT INTO Comments(text) VALUES ('" . $comment . "')";
         $result = $conn->query($sqlInsertComment);
         if ($result == TRUE) {
@@ -52,13 +52,13 @@ CREATE TABLE Comments(
         $result = $conn->query($sqlLoadComment);
 
         if ($result->num_rows === 1){
-            $userData = $result->fetch_assoc();
+            $commentData = $result->fetch_assoc();
 
-            $this->id = $userData["id"];
-            $this->user_id = $userData["user_id"];
-            $this->tweet_id = $userData["tweet_id"];
-            $this->creation_date = $userData["creation_date"];
-            $this->text = $userData["text"];
+            $this->id = $commentData["id"];
+            $this->user_id = $commentData["user_id"];
+            $this->tweet_id = $commentData["tweet_id"];
+            $this->creation_date = $commentData["creation_date"];
+            $this->text = $commentData["text"];
         }
     }
 
