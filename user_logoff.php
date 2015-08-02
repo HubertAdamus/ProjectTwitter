@@ -1,6 +1,7 @@
 <?php
-header ('Content-type: text/html; charset=utf-8');
-session_destroy();
+session_start();
+if(isset($_SESSION['user_id'])) {
+    session_destroy();
+    header("Location: http://localhost/ProjectTwitter/user_login.php");
+}
 
-var_dump($_SESSION);
-header("Location: http://localhost/ProjectTwitter/user_login.php");

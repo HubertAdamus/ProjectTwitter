@@ -1,11 +1,14 @@
 <?php
-echo "<br>Tweets created by others: <br>";
+echo "<br><strong>Tweets created by others: </strong><br>";
 
-/*
-$retArray=$loggedUser->getEverybodyTweets($conn,10);
-foreach ($retArray as $tweet ) {
-    $tweet->showTweet();
+$retArrayAll=$loggedUser->getEverybodyTweets($conn,40);
+foreach ($retArrayAll as $tweet ) {
+    echo "<hr>";
+    echo $tweet->showTweet();
+    echo $tweet->generateLinkToMyTweet();
+    $retComArray=$tweet->getAllComments($conn);
+    foreach ($retComArray as $comment){
+        echo $comment->showUser($conn, $comment->getUserId());
+        echo $comment->showComment();
+    }
 };
-*/
-
-echo "<hr>";

@@ -22,40 +22,116 @@ CREATE TABLE Users(
          $this->desc = "";
      }
 
+     public function deleteUser(mysqli $conn, $id)
+     {
+         $sql = "DELETE FROM Users WHERE id='".$id."'";
+
+         if ($conn->query($sql) === TRUE) {
+             echo "Record deleted successfully";
+         } else {
+             echo "Error deleting record: " . $conn->error;
+         }
+    }
 
 
 
-     public function getEverybodyTweets(mysqli $conn, $numberOfPosts){
-         $sqlGetUserTweets = "SELECT * FROM Tweets WHERE user_id!='" . $this->id . "' LIMIT " . $numberOfPosts;
-         $result = $conn->query($sqlGetUserTweets);
+     public function getAllReceivedMessages(mysqli $conn){
+         $sql = "SELECT * FROM Messages WHERE receive_id='".$this->id."'";
+         $result = $conn->query($sql);
 
-         $retArray = [];
+         $retReceivedArray = [];
 
-         if ($result){
+         if ($result->num_rows>0){
              WHILE($row = $result->fetch_assoc()){
-
-                 $row = new Tweet();
-                 $row->loadFromDB($conn, $row['id']);
-                 $retArray []=$row;
+                 $tempMessage = new Message();
+                 $tempMessage->loadFromDB($conn, $row['id']);
+                 $retReceivedArray []=$tempMessage;
              }
          }
-         return $retArray;
+         return $retReceivedArray;
      }
-     public function getAllTweets(mysqli $conn, $numberOfPosts){
-         $sqlGetUserTweets = "SELECT * FROM Tweets WHERE user_id='" . $this->id . "' LIMIT " . $numberOfPosts;
-         $result = $conn->query($sqlGetUserTweets);
 
-         $retArray = [];
+     public function getAllSentMessages(mysqli $conn){
+         $sql = "SELECT * FROM Messages WHERE send_id='".$this->id."'";
+         $result = $conn->query($sql);
 
-         if ($result->num_rows===1){
+         $retSendArray = [];
+
+         if ($result->num_rows>0){
              WHILE($row = $result->fetch_assoc()){
-
-                 $row = new Tweet();
-                 $row->loadFromDB($conn, $row['id']);
-                 $retArray []=$row;
+                 $tempMessage = new Message();
+                 $tempMessage->loadFromDB($conn, $row['id']);
+                 $retSendArray []=$tempMessage;
              }
          }
-         return $retArray;
+         return $retSendArray;
+     }
+
+     /**
+      * @param mysqli $conn
+      * @param $userId
+      * @return array
+      * USER_SHOW
+      */
+     public function getAllTweetsFromId(mysqli $conn, $userId){
+         $sqlGetUserTweets = "SELECT * FROM Tweets WHERE user_id='" . $userId . "'";
+         $result = $conn->query($sqlGetUserTweets);
+
+         $retArrayId = [];
+
+         if ($result->num_rows>0){
+             WHILE($row = $result->fetch_assoc()){
+                 $tempTweet = new Tweet();
+                 $tempTweet->loadFromDB($conn, $row['id']);
+                 $retArrayId []=$tempTweet;
+             }
+         }
+         return $retArrayId;
+     }
+
+     /**
+      * @param mysqli $conn
+      * @param $numberOfPosts
+      * @return array
+      * INDEX
+      */
+     public function getEverybodyTweets(mysqli $conn, $numberOfPosts){
+         $sql = "SELECT * FROM Tweets WHERE user_id!='" . $this->id . "' LIMIT " . $numberOfPosts;
+         $result = $conn->query($sql);
+
+         $retArrayAll = [];
+
+         if ($result->num_rows>0){
+             WHILE($row = $result->fetch_assoc()){
+
+                 $tempData = new Tweet();
+                 $tempData->loadFromDB($conn, $row['id']);
+                 $retArrayAll []=$tempData;
+             }
+         }
+         return $retArrayAll;
+     }
+
+     /**
+      * @param mysqli $conn
+      * @param $numberOfPosts
+      * @return array
+      * INDEX
+      */
+     public function getAllTweets(mysqli $conn, $numberOfPosts){
+         $sql = "SELECT * FROM Tweets WHERE user_id='" . $this->id . "' LIMIT " . $numberOfPosts;
+         $result = $conn->query($sql);
+
+         $retArrayUser = [];
+
+         if ($result->num_rows>0){
+             WHILE($row = $result->fetch_assoc()){
+                 $tempTweet = new Tweet();
+                 $tempTweet->loadFromDB($conn, $row['id']);
+                 $retArrayUser []=$tempTweet;
+             }
+         }
+         return $retArrayUser;
      }
      public function login(mysqli $conn, $name, $pass)
      {
@@ -80,7 +156,7 @@ CREATE TABLE Users(
      {
          echo(
              "User: " . $this->name . "<br>
-             Desc: " . $this->desc . "<br>
+             Description: " . $this->desc . "<br>
              "
          );
      }
@@ -92,7 +168,7 @@ CREATE TABLE Users(
          }
          $options = [
              'cost' => 11,
-             'salt' => "qwertasdfgzxcvbqwertas"//mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+             'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
          ];
 
          $hashedPas = password_hash($newPass, PASSWORD_BCRYPT, $options);
@@ -115,8 +191,7 @@ CREATE TABLE Users(
          }
          $options = [
              'cost' => 11,
-             //TODO SALTING IS NOT WORKING
-             'salt' => "qwertasdfgzxcvbqwertas"// 'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)
+             'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
          ];
 
          $hashedPas = password_hash($password, PASSWORD_BCRYPT, $options);
@@ -144,11 +219,9 @@ CREATE TABLE Users(
 
 
 
-
-
      public function generateLinkToMyPage()
      {
-         return "<a href='http://localhost/Exercise/Twitter/user_show.php?user_id=" . $this->id . "'>" . $this->name . "</a>";
+         return "<a href='http://localhost/ProjectTwitter/user_show.php?user_id=" . $this->id . "'>" . $this->name . "</a>";
      }
      public function getId()
      {

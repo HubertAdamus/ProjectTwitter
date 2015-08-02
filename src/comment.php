@@ -1,4 +1,5 @@
 <?php
+include_once "user.php";
 class Comment{
     /*
 CREATE TABLE Comments(
@@ -26,9 +27,19 @@ CREATE TABLE Comments(
     }
 
 
+    public function showCommentUser(mysqli $conn, $userId)
+    {
+        $name = new User();
+        $name->loadFromDB($conn, $userId);
+        echo (
+            "<a href='http://localhost/ProjectTwitter/user_show.php?user_id=" . $userId . "'>" .$name->getName(). "</a> "
+        );
+    }
+
+
     public function showComment(){
         echo(
-            "Comment: ".$this->text. "<br>"
+            $this->text. "<br>"
         );
     }
     public function updateComment(mysqli $conn, $newText){
@@ -40,11 +51,16 @@ CREATE TABLE Comments(
             echo "Error: " . $conn->error . "<br>";
         }
     }
-    public function createComment(mysqli $conn, $comment){
-        $sqlInsertComment = " INSERT INTO Comments(text) VALUES ('" . $comment . "')";
-        $result = $conn->query($sqlInsertComment);
+
+
+    public function createComment(mysqli $conn, $user_id, $tweet_id, $comment){
+        $sql = " INSERT INTO Comments(user_id, tweet_id, text) VALUES ('" . $user_id . "','" . $tweet_id . "','" . $comment . "')";
+        $result = $conn->query($sql);
         if ($result == TRUE) {
             $this->text = $conn->insert_id;
+            $this->user_id = $user_id;
+            $this->tweet_id = $tweet_id;
+            $this->text = $comment;
         }
     }
     public function loadFromDB(mysqli $conn, $idToLoad){

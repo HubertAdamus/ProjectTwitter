@@ -1,5 +1,5 @@
 <?php
-include "header.php";
+require_once "header.php";
 
 $loggedUser = new User();
 $loggedUser->loadFromDB($conn, $_SESSION["user_id"]);
