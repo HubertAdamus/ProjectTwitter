@@ -1,2 +1,2 @@
-# ProjectTwitter
-Tiny Tweeter apllication written in Vanilla PHP
+# Tiny Twitter
+Apllication written in Vanilla PHP
